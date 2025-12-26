@@ -1,1 +1,38 @@
+package FunctionalProgrammingProject;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.BiFunction;
+
+public class GradeApplications {
+
+
+    Function<Student, Double> calculateAverage = student -> student.getGrades().stream()
+            .mapToDouble(Double::doubleValue).average().orElse(0.0);
+
+    Function<Double, String> getLetterGrade = grade -> {
+
+
+        if(grade >= 90) return "A";
+        if(grade >= 80) return "B";
+        if(grade >= 70) return "C";
+        if(grade >= 60) return "D";
+
+        return "f";
+
+    };
+
+    Function<Student, String> getStudentLetterGrade = calculateAverage.andThen(getLetterGrade);
+
+
+     BiFunction<Student,Student, Double> compareAverages = (studentOne, studentTwo) -> {
+
+        double studentOneAvg = calculateAverage.apply(studentOne);
+        double studentTwoAvg = calculateAverage.apply(studentTwo);
+
+        return Math.max(studentOneAvg, studentTwoAvg);
+
+
+    };
 

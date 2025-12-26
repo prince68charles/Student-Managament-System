@@ -36,3 +36,19 @@ public class GradeApplications {
 
     };
 
+ Function<Double,Double> applyCurve =  grade -> Math.min(100, grade +5);
+
+
+    //Apply curve to all grades
+    Function<Student, Student> applyCurveToGrades = student -> new Student(
+            student.getName(),
+            student.getId(),
+            student.getEmail(),
+            student.getAge(),
+            student.getGrades().stream().map(grades -> applyCurve.apply(grades)).toList(),
+            student.getMajor()
+    );
+
+
+
+}

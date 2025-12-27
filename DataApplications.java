@@ -25,6 +25,13 @@ public class DataApplications implements GradeApplications{
     static Predicate<Student> isValidStudent = hasValidEmail.and(isAdult).and(hasPassingGrades);
 
     static Predicate<Student> specialCase = isHonoursStudent.or(student -> student.getAge() <20);
+    
+    public class DataSuppliers {
 
+        static Supplier<Double> randomGrade = () -> ThreadLocalRandom.current().nextDouble(1,101);
+
+
+    }
 
 }
+

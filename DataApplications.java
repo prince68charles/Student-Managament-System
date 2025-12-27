@@ -1,7 +1,12 @@
 package FunctionalProgrammingProject;
-import com.sun.net.httpserver.Authenticator;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Supplier;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 public class DataApplications implements GradeApplications{
@@ -24,8 +29,9 @@ public class DataApplications implements GradeApplications{
 
     static Predicate<Student> isValidStudent = hasValidEmail.and(isAdult).and(hasPassingGrades);
 
-    static Predicate<Student> specialCase = isHonoursStudent.or(student -> student.getAge() <20);
-    
+    static Predicate<Student> specialCase = isHonoursStudent.or(student -> student.getAge() < 20);
+
+
     public class DataSuppliers {
 
         static Supplier<Double> randomGrade = () -> ThreadLocalRandom.current().nextDouble(1,101);
@@ -33,5 +39,46 @@ public class DataApplications implements GradeApplications{
 
     }
 
-}
+    public class StudentQueries {
 
+
+        static List<Student> getTopPerformers(List<Student> students) {
+
+            return students.stream().filter(
+                    student -> calculateAverage.apply(student) >= 80).toList();
+
+
+        };
+
+
+        static double getClassAverage(List<Student> students) {
+
+            return students.stream().mapToDouble(calculateAverage::apply).average().orElse(0.0);
+
+        };
+
+
+
+        static Map<String,List<Student>> groupByLetterGrade(List<Student> students) {
+
+
+            return students.stream().collect(Collectors.groupingBy(getStudentLetterGrade::apply));
+        }
+
+        static List<Student> getTop3(List<Student> students) {
+
+
+            return students.stream().sorted(
+
+                    Comparator.comparingDouble(calculateAverage::apply).reversed()
+
+            ).limit(3).toList();
+
+
+        }
+
+
+    }
+
+
+}

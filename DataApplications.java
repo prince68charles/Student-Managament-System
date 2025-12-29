@@ -1,11 +1,10 @@
 package FunctionalProgrammingProject;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.Optional;
+import java.util.function.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
-
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -96,7 +95,27 @@ public class DataApplications implements GradeApplications{
 
         }
 
-        
+
+    }
+
+
+    public class OptionalQueries{
+
+        static Optional<Student> findStudentByID(List<Student> students, String ID) {
+
+            return students.stream()
+                    .filter(student -> student.getId().equals(ID)).findFirst();
+        }
+
+
+        static Optional<Double> findHighestGrade(List<Student> students) {
+
+           return students.stream().flatMap(student ->
+                   student.getGrades().stream()).max(Double::compare);
+
+
+
+        }
     }
 
 

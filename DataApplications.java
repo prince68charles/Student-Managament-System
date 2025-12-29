@@ -77,7 +77,26 @@ public class DataApplications implements GradeApplications{
 
         }
 
+        static List<Double> getAllUniuqeGrades(List<Student> students) {
 
+            return students.stream()
+                    .flatMap(student -> student.getGrades().stream())
+                    .distinct().sorted().toList();
+
+        }
+
+
+        static List<Student> getStudentsWithExcellence(List<Student> students) {
+
+            return students.stream().filter(student ->
+
+                    student.getGrades().stream().anyMatch(grade -> grade>=95)
+
+                    ).toList();
+
+        }
+
+        
     }
 
 
